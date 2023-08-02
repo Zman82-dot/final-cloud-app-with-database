@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 # <HINT> Import any new Models here
-from .models import Course, Enrollment
+from .models import Course, Enrollment,Question, Choice , Submission
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -142,7 +142,22 @@ def extract_answers(request):
         # Get the selected choice ids from the submission record
         # For each selected choice, check if it is a correct answer or not
         # Calculate the total score
-#def show_exam_result(request, course_id, submission_id):
+def show_exam_result(request, course_id, submission_id):
+    context={}
+    course = Course.objects.get(id = course_id)
+    submit = Submission.objects.get(id = submission_id)
+    selected = Submission.objects.filter(id = submission_id)
+    score = 0
+    total_questions = 0
+    for i in submit.choices.all():
+      if(i.is_correct):
+            score+= 1
+        total_questions += 1
+    context['selected'] = selected
+    context['grade'] = int(score/total_questions * 100)
+    context['course'] = course
+    return render(request, 'onlinecourse/exam_result_bootstrap.html',context)
+        
 
 
 
