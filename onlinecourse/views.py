@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 # <HINT> Import any new Models here
-from .models import Course, Enrollment,Question, Choice , Submission
+from .models import Course, Enrollment, Question, Choice, Submission
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -111,23 +111,21 @@ def enroll(request, course_id):
          # Add each selected choice object to the submission object
          # Redirect to show_exam_result with the submission id
 def submit(request, course_id):
-    course = get_object_or_404(Course,pk=course_id)
+    course = get_object_or_404(Course, pk=course_id)
     user = request.user
-    enrollment = Enrollment.objects.get(user=user , course=course)
+    
+    enrollment = Enrollment.objects.get(user=user, course=course)
     submission = Submission.objects.create(enrollment=enrollment)
-    answers = extract_answers(request)
-
-    for answer in answers:
-        choice = Choice.objects.filter(id = int(answer)).get
-        submission.choices.add(choice)
-
-submission.save()
-return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(course.id,submission.id)))
+    selected_options = extract_answers(request)
+    submission.choices.set(selected_options)
+    submission.save()
+    
+    return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(course_id, submission.pk,)))
 
 
 # <HINT> A example method to collect the selected choices from the exam form from the request object
 def extract_answers(request):
-   submitted_anwsers = []
+    submitted_anwsers = []
     for key in request.POST:
         if key.startswith('choice'):
             value = request.POST[key]
@@ -143,21 +141,24 @@ def extract_answers(request):
         # For each selected choice, check if it is a correct answer or not
         # Calculate the total score
 def show_exam_result(request, course_id, submission_id):
-    context={}
-    course = Course.objects.get(id = course_id)
-    submit = Submission.objects.get(id = submission_id)
-    selected = Submission.objects.filter(id = submission_id)
-    score = 0
-    total_questions = 0
-    for i in submit.choices.all():
-      if(i.is_correct):
-            score+= 1
-        total_questions += 1
-    context['selected'] = selected
-    context['grade'] = int(score/total_questions * 100)
+    context = {}
+    
+    course      = get_object_or_404(Course, pk=course_id)
+    submission  = get_object_or_404(Submission, pk=submission_id)
+    
+    selected_choices = submission.choices.all()
+    
+    total_grade, grade = 0, 0
+    
+    for question in course.question_set.all():
+        total_grade += question.grade
+        if question.is_get_score(selected_choices):
+            grade += question.grade
+    
     context['course'] = course
-    return render(request, 'onlinecourse/exam_result_bootstrap.html',context)
-        
-
-
-
+    context['selected_choices'] = selected_choices
+    context['total_grade'] = total_grade
+    context['minimum_to_pass'] = total_grade * 0.8
+    context['grade'] = grade
+    
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
