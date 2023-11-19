@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <title>Online Courses</title>
 </head>
-<body>
+<body style="background-color:rgb(60, 60, 60);">
     <!-- Navigation bar -->
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar"style="background-image:linear-gradient(grey,darkgrey);color:whitesmoke;">
         <div class="container-fluid">
             <div class="navbar-header">
                   <a class="navbar-brand" href="#">Online Course</a>
@@ -41,10 +41,11 @@
         <div class="container">
             <div class="card-deck">
                 {% for course in course_list %}
-                         <div class="card" style="width: 36rem;">
+                         <div class="card" style="width: 16rem;">
                           <img class="card-img-left" src="{{MEDIA_URL}}/{{ course.image }}" width="240px" height="240px"
                                alt="Course image">
-                          <div class="card-body bg-light">
+                               
+                          <div class="card-body">
                               <h5 class="card-title">{{ course.name }}, <span class="text-success">
                                   {{ course.total_enrollment}} enrolled</span></h5>
                             <p class="card-text">{{ course.description}}</p>
