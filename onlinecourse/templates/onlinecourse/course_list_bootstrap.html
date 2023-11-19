@@ -11,13 +11,13 @@
     <nav class="navbar navbar"style="background-image:linear-gradient(grey,darkgrey);color:whitesmoke;">
         <div class="container-fluid">
             <div class="navbar-header">
-                  <a class="navbar-brand" href="#">Online Course</a>
+                  <a class="navbar-brand" href="#" style="color:whitesmoke;">Online Course</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated %} 
                 <li>
-                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                    <a class="btn btn-link" href="{% url 'onlinecourse:logout' %}">Logout</a>
+                    <a class="btn btn-link" href="#"style="color:whitesmoke;">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="btn btn-link" href="{% url 'onlinecourse:logout' %}" style="color:whitesmoke;">Logout</a>
                 </li>
                 {% else %}
                 <li>
