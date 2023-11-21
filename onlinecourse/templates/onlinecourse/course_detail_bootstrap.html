@@ -11,16 +11,16 @@
 
 <body style="background-color:rgb(60, 60, 60);">
     <!-- Navigation bar -->
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar" style="background-image:linear-gradient(grey,darkgrey);color:whitesmoke;">
         <div class="container-fluid">
             <div class="navbar-header">
-                  <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">Home</a>
+                  <a class="navbar-brand" href="{% url 'onlinecourse:index' %}"style="color:whitesmoke;">Home</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                 <li>
-                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                    <a class="btn btn-link" href="{% url 'onlinecourse:logout' %}">Logout</a>
+                    <a class=""  style="color:whitesmoke;margin:10px;" href="#">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="" style="color:whitesmoke;" href="{% url 'onlinecourse:logout' %}">Logout</a>
                 </li>
                 {% else %}
                 <li>
@@ -42,9 +42,7 @@
     <!-- Page content -->
     <div class="container-fluid">
             <h2>{{ course.name }}</h2>
-            <div class="align-center">
-            <iframe width="1270" height="415" src="https://www.youtube.com/embed/b9eMGE7QtTk" title="React JS Full Course 2023 | Build an App and Master React in 1 Hour" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:30px;align-center;" style="align-center"></iframe>
-            </div>
+            <iframe width="1270" height="415" src="https://www.youtube.com/embed/b9eMGE7QtTk" title="React JS Full Course 2023 | Build an App and Master React in 1 Hour" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border-radius:30px;align-center;"></iframe>
             <div class="card-columns-vertical">
                 {% for lesson in course.lesson_set.all %}
                     <div class="card mt-1">
