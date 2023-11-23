@@ -14,19 +14,20 @@
     <nav class="navbar navbar" style="background-image:linear-gradient(grey,darkgrey);color:whitesmoke;">
         <div class="container-fluid">
             <div class="navbar-header">
-                  <a class="navbar-brand" href="{% url 'onlinecourse:index' %}"style="color:whitesmoke;">Home</a>
+               <h3>   <a class="navbar-brand" href="{% url 'onlinecourse:index' %}"style="color:whitesmoke;">🏠 Home</a></h3>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                <li>
-                    <a class=""  style="color:whitesmoke;margin:10px;" href="#">{{ user.first_name }}({{ user.username }})</a>
-                    <a class="" style="color:whitesmoke;" href="{% url 'onlinecourse:logout' %}">Logout</a>
+                <li><h4>
+                    <a class=""  style="color:whitesmoke;margin:10px;" href="#">{{ user.first_name }}{{ user.username }}</a>
+                    <a class="" style="color:whitesmoke;" href="{% url 'onlinecourse:logout' %}">👤 Logout</a></h4>
                 </li>
                 {% else %}
                 <li>
                     <form class="form-inline" action="{% url 'onlinecourse:login' %}" method="post">
                         {% csrf_token %}
                         <div class="input-group">
+                            👤
                             <input type="text" class="form-control" placeholder="Username" name="username" >
                             <input type="password" class="form-control" placeholder="Username" name="psw" >
                             <button class="btn btn-primary" type="submit">Login</button>
@@ -46,10 +47,11 @@
             <div class="card-columns-vertical">
                 {% for lesson in course.lesson_set.all %}
                     <div class="card mt-1">
-                        <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
+                        <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5>💻 To complete the lab for this course open up a code space in git hub if you do not have a account you can create one here<a href="https://r.search.yahoo.com/_ylt=AwrFRBoXsF5l6VUx0nYPxQt.;_ylu=Y29sbwNiZjEEcG9zAzEEdnRpZAMEc2VjA3Ny/RV=2/RE=1700733080/RO=10/RU=https%3a%2f%2fgithub.com%2flogin/RK=2/RS=s8VSmWny8sbVwRwwrl4OADO61Ls-">💻</a></div>
                         <div class="card-body">{{lesson.content}}</div>
                     </div>
                 {% endfor %}
+                
             
             <!-- Task: show questions and choices -->
             <!-- <HINT> Use Bootstrap Collapse to hide exam first, more details could be found here

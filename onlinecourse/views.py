@@ -57,7 +57,10 @@ def login_request(request):
 
 def logout_request(request):
     logout(request)
-    return redirect('onlinecourse:index')
+    context={}
+    return render(request, 'onlinecourse/user_login_bootstrap.html', context)
+
+
 
 
 def check_if_enrolled(user, course):
